@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Whisky - Official Band Website</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+</html>
+
+<body>
+  <div id="app">
+    <header>
+      <div class="logo">
+        <img src="./assets/logo/whisky-black.png" alt="">
+      </div>
+    </header>
+    <main>
+      <section class="player-section">
+        <div class="player-container">
+          <div class="player-header">
+            <div class="track-image">
+              <img class="track-image-current" :src="currentTrack.img" :alt="currentTrack.title" />
+            </div>
+          </div>
+
+          <div class="player-controls">
+            <!-- Прогресс трека с возможностью перетаскивания -->
+            <div class="progress-area">
+              <div class="progress-label">
+                <h4 class="track-title">
+                  {{ currentTrack.title }}
+                </h4>
+                <p class="track-album">
+                  the Whisky
+                </p>
+              </div>
+              <div
+                class="progress-bar"
+                @mousedown="startDraggingProgress"
+                @touchstart="startDraggingProgress"
+                ref="progressBar"
+              >
+                <div class="progress" :style="{width: progress + '%'}"></div>
+              </div>
+              <div class="time-area">
+                <span class="current-time">{{ formatTime(currentTime) }}</span>
+                <span class="total-time">{{ formatTime(duration) }}</span>
+              </div>
+            </div>
+
+            <!-- Основные кнопки управления -->
+            <div class="controls">
+              <div class="controls-block">
+                <button class="control-btn" @click="previousTrack">
+                  <i class="fas fa-step-backward"></i>
+                </button>
+                <button :class="['control-btn', 'play-pause', isPlaying ? 'playing-active' : '']" @click="togglePlay">
+                  <i :class="isPlaying ? 'fas fa-pause' : 'fas fa-play'"></i>
+                </button>
+                <button class="control-btn" @click="nextTrack">
+                  <i class="fas fa-step-forward"></i>
+                </button>
+              </div>
+
+              <!-- Контроль громкости с кнопкой MUTE -->
+              <!-- <div class="volume-control" :class="{muted: isMuted}">
+                <div class="volume-icon-container" @click="toggleMute" title="Mute/Unmute">
+                  <i class="fas fa-volume-up volume-icon"></i>
+                  <div class="mute-line"></div>
+                </div>
+                <div
+                  class="volume-slider"
+                  @mousedown="startDraggingVolume"
+                  @touchstart="startDraggingVolume"
+                  ref="volumeSlider"
+                >
+                  <div class="volume-progress" :style="{width: volume * 100 + '%'}"></div>
+                </div>
+                <span class="volume-value">{{ Math.round(volume * 100) }}%</span>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Список треков -->
+          <div class="track-list">
+            <div
+              v-for="(track, index) in tracks"
+              :key="track.id"
+              class="track-item"
+              :class="{active: currentTrack.id === track.id}"
+              @click="playTrack(index)"
+            > 
+              <div class="track-list-image">
+                <img :src="track.img" alt="">
+              </div>
+              <div class="track-list-heading">
+                <div class="track-list-title">{{ track.title }}</div>
+                <div class="track-list-record">{{ track.record }}</div>
+              </div>
+              <span class="track-duration">{{ formatTime(track.duration) }}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- <footer>
+      <div class="footer-content">
+        <div class="band-logo-small">THE WHISKY</div>
+
+        <div class="social-links">
+          <a href="#" class="social-icon"><i class="fab fa-vk"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+        </div>
+
+        <p class="copyright">
+          © {{ new Date().getFullYear() }} THEWHISKY BAND. ALL RIGHTS RESERVED.<br />
+          OFFICIAL WEBSITE: <a href="https://thewhisky.ru" class="website-link">thewhisky.ru</a>
+        </p>
+      </div>
+    </footer> -->
+  </div>
+</body>
+
+<script>
+  const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
+
+  createApp({
+    setup() {
+      const band = ref([
+        {
+          id: 1,
+          name: "Алексей Закупнев",
+          role: "Гитара",
+          bio: "Founding member and primary songwriter. Known for his powerful vocals and intense stage presence.",
+          image: "./image/zak-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          id: 2,
+          name: "Максим Прядкин",
+          role: "Вокал",
+          bio: "Virtuoso guitarist with a background in classical music. Creates the band's signature riffs.",
+          image: "./image/max-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          id: 3,
+          name: "Алексей Кузнецов",
+          role: "Басс",
+          bio: "Provides the heavy, driving basslines that form the foundation of The Whisky's sound.",
+          image: "./image/kuz-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        },
+        {
+          id: 4,
+          name: "Илья Журихин",
+          role: "Барабаны",
+          bio: "Energetic drummer with a background in jazz and metal. Known for his complex rhythms.",
+          image: "./image/ily-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        },
+      ]);
+
+      const tracks = ref([
+        {
+          id: 1,
+          title: "Ничего не надо",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 245,
+          src: "./assets/audio/the-whisky-nichigo-ne-nado.mp3",
+          img: "./assets/image/ruch-2.jpg",
+          record: "2008"
+        },
+        {
+          id: 2,
+          title: "На крыше",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 193,
+          src: "./assets/audio/the-whisky-na-kriche.mp3",
+          img: "./assets/image/gr-1.jpg",
+          record: "2008"
+        },
+        {
+          id: 3,
+          title: "Зачем",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 210,
+          src: "./assets/audio/the-whisky-zachem.mp3",
+          img: "./assets/image/gr-3.jpg",
+          record: "2008"
+        },
+        {
+          id: 4,
+          title: "Никого не вини",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 265,
+          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
+          img: "./assets/image/gr-2.jpg",
+          record: "2008"
+        },
+      ]);
+
+      // Перемненные для плаера
+      const currentTrackIndex = ref(0);
+      const isPlaying = ref(false);
+      const currentTime = ref(0);
+      const duration = ref(0);
+      const volume = ref(1);
+      const progress = ref(0);
+      const isMuted = ref(false);
+      const previousVolume = ref(0.7); // Для сохранения предыдущего уровня громкости
+
+      // Состояния для перетаскивания
+      const isDraggingProgress = ref(false);
+      const isDraggingVolume = ref(false);
+      const progressBar = ref(null);
+      const volumeSlider = ref(null);
+
+      // Инициализируем HTMLAudioElement: Audio() constructor
+      const audio = new Audio();
+
+      const currentTrack = computed(() => tracks.value[currentTrackIndex.value]);
+
+      const formatTime = (seconds) => {
+        if (!seconds) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+      };
+
+      // Управление воспроизведением
+      const togglePlay = () => {
+        if (isPlaying.value) {
+          audio.pause();
+        } else {
+          audio.play();
+        }
+        isPlaying.value = !isPlaying.value;
+      };
+
+      const playTrack = (index) => {
+        currentTrackIndex.value = index;
+        audio.src = tracks.value[index].src;
+        audio.play();
+        isPlaying.value = true;
+      };
+
+      const nextTrack = () => {
+        currentTrackIndex.value = (currentTrackIndex.value + 1) % tracks.value.length;
+        audio.src = tracks.value[currentTrackIndex.value].src;
+        audio.play();
+        isPlaying.value = true;
+      };
+
+      const previousTrack = () => {
+        currentTrackIndex.value =
+          currentTrackIndex.value === 0 ? tracks.value.length - 1 : currentTrackIndex.value - 1;
+        audio.src = tracks.value[currentTrackIndex.value].src;
+        audio.play();
+        isPlaying.value = true;
+      };
+
+      // Функция mute
+      const toggleMute = () => {
+        if (isMuted.value) {
+          // Включаем звук, восстанавливаем предыдущую громкость
+          isMuted.value = false;
+          audio.volume = previousVolume.value;
+          volume.value = previousVolume.value;
+        } else {
+          // Выключаем звук, сохраняем текущую громкость
+          isMuted.value = true;
+          previousVolume.value = volume.value;
+          audio.volume = 0;
+          volume.value = 0;
+        }
+      };
+
+      // При изменении громкости слайдером
+      const updateAudioVolume = () => {
+        if (isMuted.value && volume.value > 0) {
+          // Если начали двигать слайдер при muted - снимаем mute
+          isMuted.value = false;
+          audio.volume = volume.value;
+        } else if (!isMuted.value) {
+          audio.volume = volume.value;
+        }
+      };
+
+      // Перетаскивание прогресса трека
+      const startDraggingProgress = (event) => {
+        isDraggingProgress.value = true;
+        updateProgress(event);
+
+        // Добавляем обработчики для движения мыши и отпускания
+        document.addEventListener("mousemove", handleProgressDrag);
+        document.addEventListener("mouseup", stopDraggingProgress);
+
+        // Для touch-устройств
+        document.addEventListener("touchmove", handleProgressDrag);
+        document.addEventListener("touchend", stopDraggingProgress);
+      };
+
+      const handleProgressDrag = (event) => {
+        if (!isDraggingProgress.value) return;
+        updateProgress(event);
+      };
+
+      const updateProgress = (event) => {
+        if (!progressBar.value) return;
+
+        const rect = progressBar.value.getBoundingClientRect();
+        let clientX;
+
+        if (event.type.includes("touch")) {
+          clientX = event.touches[0].clientX;
+        } else {
+          clientX = event.clientX;
+        }
+
+        let clickPosition = clientX - rect.left;
+        clickPosition = Math.max(0, Math.min(clickPosition, rect.width));
+
+        const newProgress = (clickPosition / rect.width) * 100;
+        progress.value = newProgress;
+        audio.currentTime = (newProgress / 100) * duration.value;
+      };
+
+      const stopDraggingProgress = () => {
+        isDraggingProgress.value = false;
+
+        // Удаляем обработчики
+        document.removeEventListener("mousemove", handleProgressDrag);
+        document.removeEventListener("mouseup", stopDraggingProgress);
+        document.removeEventListener("touchmove", handleProgressDrag);
+        document.removeEventListener("touchend", stopDraggingProgress);
+      };
+
+      // Перетаскивание громкости
+      const startDraggingVolume = (event) => {
+        isDraggingVolume.value = true;
+        updateVolume(event);
+
+        // Добавляем обработчики для движения мыши и отпускания
+        document.addEventListener("mousemove", handleVolumeDrag);
+        document.addEventListener("mouseup", stopDraggingVolume);
+
+        // Для touch-устройств
+        document.addEventListener("touchmove", handleVolumeDrag);
+        document.addEventListener("touchend", stopDraggingVolume);
+      };
+
+      const handleVolumeDrag = (event) => {
+        if (!isDraggingVolume.value) return;
+        updateVolume(event);
+      };
+
+      const updateVolume = (event) => {
+        if (!volumeSlider.value) return;
+
+        const rect = volumeSlider.value.getBoundingClientRect();
+        let clientX;
+
+        if (event.type.includes("touch")) {
+          clientX = event.touches[0].clientX;
+        } else {
+          clientX = event.clientX;
+        }
+
+        let clickPosition = clientX - rect.left;
+        clickPosition = Math.max(0, Math.min(clickPosition, rect.width));
+
+        const newVolume = clickPosition / rect.width;
+        volume.value = newVolume;
+
+        // Если меняем громкость при muted - снимаем mute
+        if (isMuted.value && newVolume > 0) {
+          isMuted.value = false;
+        }
+
+        // Обновляем громкость аудио
+        audio.volume = volume.value;
+      };
+
+      const stopDraggingVolume = () => {
+        isDraggingVolume.value = false;
+
+        // Удаляем обработчики
+        document.removeEventListener("mousemove", handleVolumeDrag);
+        document.removeEventListener("mouseup", stopDraggingVolume);
+        document.removeEventListener("touchmove", handleVolumeDrag);
+        document.removeEventListener("touchend", stopDraggingVolume);
+      };
+
+      // Инициализация аудиоплеера
+      onMounted(() => {
+        audio.src = tracks.value[0].src;
+        audio.volume = volume.value;
+
+        audio.addEventListener("loadedmetadata", () => {
+          duration.value = audio.duration;
+        });
+
+        audio.addEventListener("timeupdate", () => {
+          if (!isDraggingProgress.value) {
+            currentTime.value = audio.currentTime;
+            progress.value = (audio.currentTime / audio.duration) * 100;
+          }
+        });
+
+        audio.addEventListener("ended", () => {
+          nextTrack();
+        });
+
+        // Обновляем прогресс при клике на прогресс-бар
+        if (progressBar.value) {
+          progressBar.value.addEventListener("click", updateProgress);
+        }
+
+        // Обновляем громкость при клике на слайдер громкости
+        if (volumeSlider.value) {
+          volumeSlider.value.addEventListener("click", updateVolume);
+        }
+      });
+
+      // Очистка при размонтировании
+      onUnmounted(() => {
+        document.removeEventListener("mousemove", handleProgressDrag);
+        document.removeEventListener("mouseup", stopDraggingProgress);
+        document.removeEventListener("touchmove", handleProgressDrag);
+        document.removeEventListener("touchend", stopDraggingProgress);
+
+        document.removeEventListener("mousemove", handleVolumeDrag);
+        document.removeEventListener("mouseup", stopDraggingVolume);
+        document.removeEventListener("touchmove", handleVolumeDrag);
+        document.removeEventListener("touchend", stopDraggingVolume);
+      });
+
+      return {
+        band,
+        tracks,
+        currentTrack,
+        currentTrackIndex,
+        isPlaying,
+        currentTime,
+        duration,
+        volume,
+        progress,
+        isMuted,
+        progressBar,
+        volumeSlider,
+        formatTime,
+        togglePlay,
+        playTrack,
+        nextTrack,
+        previousTrack,
+        toggleMute,
+        startDraggingProgress,
+        startDraggingVolume,
+      };
+    },
+  }).mount("#app");
+</script>
