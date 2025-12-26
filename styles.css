@@ -69,21 +69,30 @@ body {
   overflow-x: hidden;
 }
 
-/* #app {
-	padding: 1.25em;
-} */
-
-/* header */
-
-header {
-  height: 100vh;
-  display: flex;
+#app {
+	display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
+/* header */
+
+header {
+  padding: 4em 1.25em;
+  max-width: 420px;
+}
+
+header p {
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--p-zinc-800);
+}
+
 .logo {
-  max-width: 336px;
+  width: 100%;
+  max-width: 210px;
+  margin: 0 auto;
   object-fit: cover;
 }
 
@@ -106,10 +115,7 @@ header {
   .player-container {
     border: 1px solid var(--p-zinc-900);
     /* box-shadow: 0 0 50px rgba(255, 69, 0, 0.3), inset 0 0 0px rgba(0, 0, 0, 0.5); */
-    max-width: 600px;
     margin: 0 auto;
-    margin-bottom: 36px;
-    margin-top: 36px;
   }
 }
 
