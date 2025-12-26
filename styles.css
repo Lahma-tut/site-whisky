@@ -69,9 +69,9 @@ body {
   overflow-x: hidden;
 }
 
-#app {
+/* #app {
 	padding: 1.25em;
-}
+} */
 
 /* header */
 
@@ -92,23 +92,25 @@ header {
   position: relative;
 }
 
-.player-container {
-	border: 1px solid var(--p-zinc-900);
-  /* box-shadow: 0 0 50px rgba(255, 69, 0, 0.3), inset 0 0 0px rgba(0, 0, 0, 0.5); */
-  max-width: 600px;
-  margin: 0 auto;
-  margin-bottom: 36px;
-  margin-top: 36px;
-}
-
-.player-header {
-	padding: 10px;
-}
-
 .track-image {
 	width: 100%;
 	display: flex;
 	object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .player-header {
+	  padding: 10px;
+  }
+
+  .player-container {
+    border: 1px solid var(--p-zinc-900);
+    /* box-shadow: 0 0 50px rgba(255, 69, 0, 0.3), inset 0 0 0px rgba(0, 0, 0, 0.5); */
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 36px;
+    margin-top: 36px;
+  }
 }
 
 img {
