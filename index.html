@@ -4,25 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Whisky - Official Band Website</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
 </html>
 
 <body>
   <div id="app">
-    <header>
+    <!-- <header>
       <div class="logo">
-        <img src="./assets/logo/whisky-black.png" alt="">
+        <img src="./assets/logo/whisky-black.png" alt="" />
       </div>
       <div>
         <p>Группа the WHISKY образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
       </div>
-    </header>
+    </header> -->
     <main>
       <section class="player-section">
         <div class="player-container">
@@ -30,63 +36,39 @@
             <div class="track-image">
               <img class="track-image-current" :src="currentTrack.img" :alt="currentTrack.title" />
             </div>
+            <div class="progress-label-title">
+              <h4 class="track-title">{{ currentTrack.title }}</h4>
+              <span class="track-album"> the Whisky </span>
+            </div>
           </div>
 
           <div class="player-controls">
             <!-- Прогресс трека с возможностью перетаскивания -->
             <div class="progress-area">
               <div class="progress-label">
-                <h4 class="track-title">
-                  {{ currentTrack.title }}
-                </h4>
-                <p class="track-album">
-                  the Whisky
-                </p>
+                <div>
+                  <button
+                    :class="['control-btn', 'play-pause', isPlaying ? 'playing-active' : '']"
+                    @click="togglePlay"
+                  >
+                    <i :class="isPlaying ? 'fas fa-pause' : 'fas fa-play'"></i>
+                  </button>
+                </div>
               </div>
-              <div
+              <div class="progress-area-bar">
+                <div
                 class="progress-bar"
                 @mousedown="startDraggingProgress"
                 @touchstart="startDraggingProgress"
                 ref="progressBar"
               >
                 <div class="progress" :style="{width: progress + '%'}"></div>
-              </div>
-              <div class="time-area">
-                <span class="current-time">{{ formatTime(currentTime) }}</span>
-                <span class="total-time">{{ formatTime(duration) }}</span>
-              </div>
-            </div>
-
-            <!-- Основные кнопки управления -->
-            <div class="controls">
-              <div class="controls-block">
-                <button class="control-btn" @click="previousTrack">
-                  <i class="fas fa-step-backward"></i>
-                </button>
-                <button :class="['control-btn', 'play-pause', isPlaying ? 'playing-active' : '']" @click="togglePlay">
-                  <i :class="isPlaying ? 'fas fa-pause' : 'fas fa-play'"></i>
-                </button>
-                <button class="control-btn" @click="nextTrack">
-                  <i class="fas fa-step-forward"></i>
-                </button>
-              </div>
-
-              <!-- Контроль громкости с кнопкой MUTE -->
-              <!-- <div class="volume-control" :class="{muted: isMuted}">
-                <div class="volume-icon-container" @click="toggleMute" title="Mute/Unmute">
-                  <i class="fas fa-volume-up volume-icon"></i>
-                  <div class="mute-line"></div>
                 </div>
-                <div
-                  class="volume-slider"
-                  @mousedown="startDraggingVolume"
-                  @touchstart="startDraggingVolume"
-                  ref="volumeSlider"
-                >
-                  <div class="volume-progress" :style="{width: volume * 100 + '%'}"></div>
+                <div class="time-area">
+                  <span class="current-time">{{ formatTime(currentTime) }}</span>
+                  <span class="total-time">{{ formatTime(duration) }}</span>
                 </div>
-                <span class="volume-value">{{ Math.round(volume * 100) }}%</span>
-              </div> -->
+              </div>
             </div>
           </div>
 
@@ -98,9 +80,9 @@
               class="track-item"
               :class="{active: currentTrack.id === track.id}"
               @click="playTrack(index)"
-            > 
+            >
               <div class="track-list-image">
-                <img :src="track.img" alt="">
+                <img :src="track.img" alt="" />
               </div>
               <div class="track-list-heading">
                 <div class="track-list-title">{{ track.title }}</div>
@@ -175,7 +157,7 @@
           duration: 245,
           src: "./assets/audio/the-whisky-nichigo-ne-nado.mp3",
           img: "./assets/image/ruch-2.jpg",
-          record: "2008"
+          record: "2008",
         },
         {
           id: 2,
@@ -185,7 +167,7 @@
           duration: 193,
           src: "./assets/audio/the-whisky-na-kriche.mp3",
           img: "./assets/image/gr-1.jpg",
-          record: "2008"
+          record: "2008",
         },
         {
           id: 3,
@@ -195,7 +177,7 @@
           duration: 210,
           src: "./assets/audio/the-whisky-zachem.mp3",
           img: "./assets/image/gr-3.jpg",
-          record: "2008"
+          record: "2008",
         },
         {
           id: 4,
@@ -205,7 +187,7 @@
           duration: 265,
           src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
           img: "./assets/image/gr-2.jpg",
-          record: "2008"
+          record: "2008",
         },
       ]);
 
