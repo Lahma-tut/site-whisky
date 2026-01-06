@@ -16,71 +16,70 @@
 </html>
 
 <body>
-  <div id="app">
+  <div id="app" class="container">
     <header>
       <div class="logo">
-        <img src="./assets/logo/logo-white.png" alt="whisky-vrn"/>
+        <img src="./assets/logo/logo-white.png" alt="whisky-vrn" />
+      </div>
+      <div>
+        <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
       </div>
     </header>
     <main>
-      <section class="player-section">
-        <div class="player-container">
-          <div class="player-header">
-            <img :src="currentTrack.img" :alt="currentTrack.title" />
-          </div>
+      <div class="player-section">
+        <div class="player-header">
+          <img :src="currentTrack.img" :alt="currentTrack.title" />
+        </div>
 
-          <div class="player-controls">
-            <button class="control-btn" @click="togglePlay">
-              <span class="playing-icon">
-                <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
-                <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
-              </span>
-            </button>
-            <div class="control-progress">
-              <div class="progress-title">{{ currentTrack.title }} - the Whisky</div>
-              <div class="progress-block">
-                <div
-                  class="progress-bar"
-                  @mousedown="startDraggingProgress"
-                  @touchstart="startDraggingProgress"
-                  ref="progressBar"
-                >
-                  <div class="progress" :style="{ width: progress + '%' }"></div>
-                </div>
-                <div class="time-area">
-                  <span class="current-time">{{ formatTime(currentTime) }}</span>
-                  <span class="total-time">{{ formatTime(duration) }}</span>
-                </div>
+        <div class="player-controls">
+          <button class="control-btn" @click="togglePlay">
+            <span class="playing-icon">
+              <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
+              <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
+            </span>
+          </button>
+          <div class="control-progress">
+            <div class="progress-title">{{ currentTrack.title }} - the Whisky</div>
+            <div class="progress-block">
+              <div
+                class="progress-bar"
+                @mousedown="startDraggingProgress"
+                @touchstart="startDraggingProgress"
+                ref="progressBar"
+              >
+                <div class="progress" :style="{ width: progress + '%' }"></div>
               </div>
-            </div>
-          </div>
-
-          <!-- Список треков -->
-          <div class="track-list">
-            <div
-              v-for="(track, index) in tracks"
-              :key="track.id"
-              class="track-item"
-              :class="{ active: currentTrack.id === track.id }"
-              @click="playTrack(index)"
-            >
-              <div class="track-list-image">
-                <img :src="track.img" alt="" />
+              <div class="time-area">
+                <span class="current-time">{{ formatTime(currentTime) }}</span>
+                <span class="total-time">{{ formatTime(duration) }}</span>
               </div>
-              <div class="track-list-heading">
-                <div class="track-list-title">{{ track.title }}</div>
-                <div class="track-list-record">{{ track.record }}</div>
-              </div>
-              <span class="track-duration">{{ formatTime(track.duration) }}</span>
             </div>
           </div>
         </div>
-      </section>
+
+        <!-- Список треков -->
+        <div class="track-list">
+          <div
+            v-for="(track, index) in tracks"
+            :key="track.id"
+            class="track-item"
+            :class="{ active: currentTrack.id === track.id }"
+            @click="playTrack(index)"
+          >
+            <div class="track-list-image">
+              <img :src="track.img" alt="" />
+            </div>
+            <div class="track-list-heading">
+              <div class="track-list-title">{{ track.title }}</div>
+              <div class="track-list-record">{{ track.record }}</div>
+            </div>
+            <span class="track-duration">{{ formatTime(track.duration) }}</span>
+          </div>
+        </div>
+      </div>
     </main>
     <footer>
-      <p class="copyright">
-        © {{ new Date().getFullYear() }} the whisky vrn
-      </p>
+      <p class="copyright">© {{ new Date().getFullYear() }} the whisky vrn</p>
     </footer>
   </div>
 </body>
@@ -150,6 +149,36 @@
           duration: 210,
           src: "./assets/audio/the-whisky-zachem.mp3",
           img: "./assets/image/gr-3.jpg",
+          record: "2008",
+        },
+        {
+          id: 4,
+          title: "Никого не вини",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 265,
+          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
+          img: "./assets/image/gr-2.jpg",
+          record: "2008",
+        },
+        {
+          id: 4,
+          title: "Никого не вини",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 265,
+          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
+          img: "./assets/image/gr-2.jpg",
+          record: "2008",
+        },
+        {
+          id: 4,
+          title: "Никого не вини",
+          album: "Ничего не надо",
+          year: 2008,
+          duration: 265,
+          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
+          img: "./assets/image/gr-2.jpg",
           record: "2008",
         },
         {

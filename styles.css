@@ -83,7 +83,7 @@ img {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1900px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -91,11 +91,12 @@ img {
 /* header */
 
 header {
-  width: 100%;
-  height: 100vh;
+  height: 236px;
+  padding: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 13px;
   background-color: var(--p-zinc-900);
 }
 
@@ -107,7 +108,7 @@ header {
 
 .logo {
   width: 100%;
-  max-width: 210px;
+  max-width: 136px;
   object-fit: cover;
 }
 
@@ -129,6 +130,9 @@ header {
   gap: 13px;
 	padding: 10px 13px;
 	background-color: var(--p-zinc-900);
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 
 .control-btn {
