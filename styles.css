@@ -125,9 +125,11 @@ header {
 }
 
 .player-controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  align-items: center;
   gap: 13px;
-	padding: 10px 13px;
+	padding: 10px 20px;
 	background-color: var(--p-zinc-900);
   position: sticky;
   top: 0;
@@ -141,6 +143,7 @@ header {
   border: none;
   cursor: pointer;
   transition: all 0.3s;
+  margin: 0 auto;
 }
 
 .control-btn:hover {
@@ -211,7 +214,7 @@ header {
 	justify-content: space-between;
   align-items: center;
   gap: 8px;
-	padding: 6px 10px;
+	padding: 10px 15px;
 	cursor: pointer;
   transition: all 0.3s;
   color: var(--p-zinc-900);
