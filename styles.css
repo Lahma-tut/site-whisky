@@ -74,16 +74,10 @@ img {
 	height: 100%;
 }
 
-#app {
-	display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.container {
+.wrapper {
   width: 100%;
   max-width: 768px;
+  display: gird;
   margin: 0 auto;
 }
 
@@ -99,16 +93,15 @@ header {
   background-color: var(--p-zinc-900);
 }
 
-/* header p {
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--p-zinc-800);
-} */
-
-.logo {
+header .logo {
   width: 100%;
   max-width: 136px;
   object-fit: cover;
+}
+
+header .description {
+  max-width: 426px;
+  color: var(--p-zinc-100);
 }
 
 /* Секция с плейером */
@@ -155,6 +148,8 @@ header {
 }
 
 .progress-title {
+  text-transform: uppercase;
+  font-weight: 500;
   margin-bottom: 6px;
 }
 
@@ -214,7 +209,7 @@ header {
 	justify-content: space-between;
   align-items: center;
   gap: 8px;
-	padding: 10px 15px;
+	padding: 13px;
 	cursor: pointer;
   transition: all 0.3s;
   color: var(--p-zinc-900);
@@ -230,9 +225,7 @@ header {
 }
 
 .track-list-title {
-	font-size: 1rem;
-  font-style: italic;
-  font-weight: 400;
+  
 }
 
 .track-list-record {

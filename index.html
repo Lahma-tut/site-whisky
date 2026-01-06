@@ -16,71 +16,75 @@
 </html>
 
 <body>
-  <div id="app" class="container">
-    <header>
-      <div class="logo">
-        <img src="./assets/logo/logo-white.png" alt="whisky-vrn" />
-      </div>
-      <div>
-        <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
-      </div>
-    </header>
-    <main>
-      <div class="player-section">
-        <div class="player-header">
-          <img :src="currentTrack.img" :alt="currentTrack.title" />
+  <div id="app">
+    <div class="wrapper">
+      <header>
+        <div class="logo">
+          <img src="./assets/logo/logo-white.png" alt="whisky-vrn" />
         </div>
+        <div class="description">
+          <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
+        </div>
+      </header>
 
-        <div class="player-controls">
-          <button class="control-btn" @click="togglePlay">
-            <span class="playing-icon">
-              <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
-              <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
-            </span>
-          </button>
-          <div class="control-progress">
-            <div class="progress-title">{{ currentTrack.title }} - the Whisky</div>
-            <div class="progress-block">
-              <div
-                class="progress-bar"
-                @mousedown="startDraggingProgress"
-                @touchstart="startDraggingProgress"
-                ref="progressBar"
-              >
-                <div class="progress" :style="{ width: progress + '%' }"></div>
-              </div>
-              <div class="time-area">
-                <span class="current-time">{{ formatTime(currentTime) }}</span>
-                <span class="total-time">{{ formatTime(duration) }}</span>
+      <main>
+        <div class="player-section">
+          <div class="player-header">
+            <img :src="currentTrack.img" :alt="currentTrack.title" />
+          </div>
+
+          <div class="player-controls">
+            <button class="control-btn" @click="togglePlay">
+              <span class="playing-icon">
+                <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
+                <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
+              </span>
+            </button>
+            <div class="control-progress">
+              <div class="progress-title">{{ currentTrack.title }} - the Whisky</div>
+              <div class="progress-block">
+                <div
+                  class="progress-bar"
+                  @mousedown="startDraggingProgress"
+                  @touchstart="startDraggingProgress"
+                  ref="progressBar"
+                >
+                  <div class="progress" :style="{ width: progress + '%' }"></div>
+                </div>
+                <div class="time-area">
+                  <span class="current-time">{{ formatTime(currentTime) }}</span>
+                  <span class="total-time">{{ formatTime(duration) }}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Список треков -->
-        <div class="track-list">
-          <div
-            v-for="(track, index) in tracks"
-            :key="track.id"
-            class="track-item"
-            :class="{ active: currentTrack.id === track.id }"
-            @click="playTrack(index)"
-          >
-            <div class="track-list-image">
-              <img :src="track.img" alt="" />
+          <!-- Список треков -->
+          <div class="track-list">
+            <div
+              v-for="(track, index) in tracks"
+              :key="track.id"
+              class="track-item"
+              :class="{ active: currentTrack.id === track.id }"
+              @click="playTrack(index)"
+            >
+              <div class="track-list-image">
+                <img :src="track.img" alt="" />
+              </div>
+              <div class="track-list-heading">
+                <div class="track-list-title">{{ track.title }}</div>
+                <div class="track-list-record">{{ track.record }}</div>
+              </div>
+              <span class="track-duration">{{ formatTime(track.duration) }}</span>
             </div>
-            <div class="track-list-heading">
-              <div class="track-list-title">{{ track.title }}</div>
-              <div class="track-list-record">{{ track.record }}</div>
-            </div>
-            <span class="track-duration">{{ formatTime(track.duration) }}</span>
           </div>
         </div>
-      </div>
-    </main>
-    <footer>
-      <p class="copyright">© {{ new Date().getFullYear() }} the whisky vrn</p>
-    </footer>
+      </main>
+
+      <footer>
+        <p class="copyright">© {{ new Date().getFullYear() }} the whisky vrn</p>
+      </footer>
+    </div>
   </div>
 </body>
 
