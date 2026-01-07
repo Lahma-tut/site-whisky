@@ -65,7 +65,7 @@ body {
   background-color: var(--white-zinc);
   color: white;
 	/* background-image: url(./assets/logo/white_pattern.png); */
-  line-height: 1.6;
+  line-height: 1.3;
   overflow-x: hidden;
 }
 
@@ -100,13 +100,14 @@ header .logo {
 }
 
 header .description {
-  max-width: 426px;
+  /* max-width: 426px; */
   color: var(--p-zinc-100);
+  text-wrap: balance;
 }
 
 /* Секция с плейером */
 
-.player-section {
+.player {
   position: relative;
 }
 
@@ -121,8 +122,8 @@ header .description {
   display: grid;
   grid-template-columns: 60px 1fr;
   align-items: center;
-  gap: 13px;
-	padding: 10px 20px;
+  gap: 15px;
+	padding: 15px 23px;
 	background-color: var(--p-zinc-900);
   position: sticky;
   top: 0;
@@ -148,13 +149,11 @@ header .description {
 }
 
 .progress-title {
-  text-transform: uppercase;
-  font-weight: 500;
   margin-bottom: 6px;
 }
 
 .progress-bar {
-  height: 6px;
+  height: 3px;
   width: 100%;
   background: var(--p-zinc-800);
   cursor: pointer;
@@ -198,6 +197,25 @@ header .description {
 	color: var(--p-zinc-200);
 }
 
+/* */
+.player-filter {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+  padding: 10px 15px;
+  background: rgb(159, 187, 54);
+  border-bottom: 1px solid var(--p-zinc-900);
+}
+
+.player-filter button {
+  border: none;
+  background: none;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: var(--p-zinc-800);
+}
+
+
 /* Секция с плейлистом */
 
 .track-list {
@@ -205,11 +223,11 @@ header .description {
 }
 
 .track-item {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+  grid-template-columns: 70px 1fr auto;
   align-items: center;
-  gap: 8px;
-	padding: 13px;
+  gap: 12px;
+	padding: 6px 12px;
 	cursor: pointer;
   transition: all 0.3s;
   color: var(--p-zinc-900);
@@ -225,20 +243,15 @@ header .description {
 }
 
 .track-list-title {
-  
+  margin-bottom: 6px;
 }
 
 .track-list-record {
   font-size: 0.9rem;
 }
 
-.track-list-heading {
-  flex: 1 0 auto;
-}
-
 .track-list-image {
-	width: 70px;
-	height: 70px;
+  display: flex;
 	object-fit: cover;
 }
 

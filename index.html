@@ -28,7 +28,7 @@
       </header>
 
       <main>
-        <div class="player-section">
+        <div class="player">
           <div class="player-header">
             <img :src="currentTrack.img" :alt="currentTrack.title" />
           </div>
@@ -41,7 +41,7 @@
               </span>
             </button>
             <div class="control-progress">
-              <div class="progress-title">{{ currentTrack.title }} - the Whisky</div>
+              <div class="progress-title">{{ currentTrack.title }}</div>
               <div class="progress-block">
                 <div
                   class="progress-bar"
@@ -59,6 +59,12 @@
             </div>
           </div>
 
+          <div class="player-filter">
+            <button>2017</button>
+            <button>2016</button>
+            <button>2009</button>
+          </div>
+
           <!-- Список треков -->
           <div class="track-list">
             <div
@@ -69,11 +75,11 @@
               @click="playTrack(index)"
             >
               <div class="track-list-image">
-                <img :src="track.img" alt="" />
+                <img :src="track.img" alt="track.name" />
               </div>
               <div class="track-list-heading">
                 <div class="track-list-title">{{ track.title }}</div>
-                <div class="track-list-record">{{ track.record }}</div>
+                <div class="track-list-record">{{ track.year }}</div>
               </div>
               <span class="track-duration">{{ formatTime(track.duration) }}</span>
             </div>
@@ -99,101 +105,130 @@
           name: "Алексей Закупнев",
           role: "Гитара",
           bio: "Founding member and primary songwriter. Known for his powerful vocals and intense stage presence.",
-          image: "./image/zak-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          image: "./image/zak-1.png",
         },
         {
           id: 2,
           name: "Максим Прядкин",
           role: "Вокал",
           bio: "Virtuoso guitarist with a background in classical music. Creates the band's signature riffs.",
-          image: "./image/max-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          image: "./image/max-1.png",
         },
         {
           id: 3,
           name: "Алексей Кузнецов",
           role: "Басс",
           bio: "Provides the heavy, driving basslines that form the foundation of The Whisky's sound.",
-          image: "./image/kuz-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          image: "./image/kuz-1.png",
         },
         {
           id: 4,
           name: "Илья Журихин",
           role: "Барабаны",
           bio: "Energetic drummer with a background in jazz and metal. Known for his complex rhythms.",
-          image: "./image/ily-1.png?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+          image: "./image/ily-1.png",
         },
       ]);
 
       const tracks = ref([
-        {
+        { 
           id: 1,
+          title: "Давай останемся друзьями",
+          album: "Сингл",
+          year: 2017,
+          duration: 257,
+          src: "./assets/audio/17/the-whisky-davaj-ostanemsya-druzyami.mp3",
+          img: "./assets/image/16/grom-16-m.jpg",
+        },
+        { 
+          id: 2,
+          title: "Между мужчиной и женщиной",
+          album: "Сигл",
+          year: 2017,
+          duration: 261,
+          src: "./assets/audio/17/the-whisky-mezhdu-muzhchinoj-i-zhenshhinoj.mp3",
+          img: "./assets/image/16/grom-16-k1.jpg",
+        },
+        { 
+          id: 3,
+          title: "Принцессы",
+          album: "Сингл",
+          year: 2016,
+          duration: 214,
+          src: "./assets/audio/16/the-whisky-princzessy.mp3",
+          img: "./assets/image/19/max-1.jpg",
+        },
+        { 
+          id: 4,
+          title: "Только сейчас",
+          album: "Сигл",
+          year: 2016,
+          duration: 381,
+          src: "./assets/audio/16/the-whisky-tolko-sejchas.mp3",
+          img: "./assets/image/16/grom-16-z.jpg",
+        },
+        { 
+          id: 5,
+          title: "Верните мне",
+          album: "Сингл",
+          year: 2016,
+          duration: 201,
+          src: "./assets/audio/16/the-whisky-vernite-mne.mp3",
+          img: "./assets/image/16/grom-16.jpg",
+        },
+        { 
+          id: 6,
+          title: "По шаблонам",
+          album: "Сигл",
+          year: 2016,
+          duration: 261,
+          src: "./assets/audio/16/the-whisky-po-shablonam.mp3",
+          img: "./assets/image/ruch-2.jpg",
+        },
+        { 
+          id: 7,
+          title: "Кислород",
+          album: "Сигл",
+          year: 2016,
+          duration: 213,
+          src: "./assets/audio/16/the-whisky-kislorod.mp3",
+          img: "./assets/image/16/grom-16-i.jpg",
+        },
+        {
+          id: 8,
           title: "Ничего не надо",
           album: "Ничего не надо",
           year: 2008,
-          duration: 245,
+          duration: 189,
           src: "./assets/audio/the-whisky-nichigo-ne-nado.mp3",
           img: "./assets/image/ruch-2.jpg",
-          record: "2008",
         },
         {
-          id: 2,
+          id: 9,
           title: "На крыше",
           album: "Ничего не надо",
           year: 2008,
-          duration: 193,
+          duration: 189,
           src: "./assets/audio/the-whisky-na-kriche.mp3",
           img: "./assets/image/gr-1.jpg",
-          record: "2008",
         },
         {
-          id: 3,
+          id: 10,
           title: "Зачем",
           album: "Ничего не надо",
           year: 2008,
-          duration: 210,
+          duration: 240,
           src: "./assets/audio/the-whisky-zachem.mp3",
           img: "./assets/image/gr-3.jpg",
-          record: "2008",
         },
         {
-          id: 4,
+          id: 11,
           title: "Никого не вини",
           album: "Ничего не надо",
           year: 2008,
-          duration: 265,
+          duration: 208,
           src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
           img: "./assets/image/gr-2.jpg",
-          record: "2008",
-        },
-        {
-          id: 4,
-          title: "Никого не вини",
-          album: "Ничего не надо",
-          year: 2008,
-          duration: 265,
-          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
-          img: "./assets/image/gr-2.jpg",
-          record: "2008",
-        },
-        {
-          id: 4,
-          title: "Никого не вини",
-          album: "Ничего не надо",
-          year: 2008,
-          duration: 265,
-          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
-          img: "./assets/image/gr-2.jpg",
-          record: "2008",
-        },
-        {
-          id: 4,
-          title: "Никого не вини",
-          album: "Ничего не надо",
-          year: 2008,
-          duration: 265,
-          src: "./assets/audio/the-whisky-nikogo-ne-vini.mp3",
-          img: "./assets/image/gr-2.jpg",
-          record: "2008",
         },
       ]);
 
@@ -249,14 +284,6 @@
         isPlaying.value = true;
       };
 
-      const previousTrack = () => {
-        currentTrackIndex.value =
-          currentTrackIndex.value === 0 ? tracks.value.length - 1 : currentTrackIndex.value - 1;
-        audio.src = tracks.value[currentTrackIndex.value].src;
-        audio.play();
-        isPlaying.value = true;
-      };
-
       // Функция mute
       const toggleMute = () => {
         if (isMuted.value) {
@@ -270,17 +297,6 @@
           previousVolume.value = volume.value;
           audio.volume = 0;
           volume.value = 0;
-        }
-      };
-
-      // При изменении громкости слайдером
-      const updateAudioVolume = () => {
-        if (isMuted.value && volume.value > 0) {
-          // Если начали двигать слайдер при muted - снимаем mute
-          isMuted.value = false;
-          audio.volume = volume.value;
-        } else if (!isMuted.value) {
-          audio.volume = volume.value;
         }
       };
 
@@ -333,62 +349,6 @@
         document.removeEventListener("touchend", stopDraggingProgress);
       };
 
-      // Перетаскивание громкости
-      const startDraggingVolume = (event) => {
-        isDraggingVolume.value = true;
-        updateVolume(event);
-
-        // Добавляем обработчики для движения мыши и отпускания
-        document.addEventListener("mousemove", handleVolumeDrag);
-        document.addEventListener("mouseup", stopDraggingVolume);
-
-        // Для touch-устройств
-        document.addEventListener("touchmove", handleVolumeDrag);
-        document.addEventListener("touchend", stopDraggingVolume);
-      };
-
-      const handleVolumeDrag = (event) => {
-        if (!isDraggingVolume.value) return;
-        updateVolume(event);
-      };
-
-      const updateVolume = (event) => {
-        if (!volumeSlider.value) return;
-
-        const rect = volumeSlider.value.getBoundingClientRect();
-        let clientX;
-
-        if (event.type.includes("touch")) {
-          clientX = event.touches[0].clientX;
-        } else {
-          clientX = event.clientX;
-        }
-
-        let clickPosition = clientX - rect.left;
-        clickPosition = Math.max(0, Math.min(clickPosition, rect.width));
-
-        const newVolume = clickPosition / rect.width;
-        volume.value = newVolume;
-
-        // Если меняем громкость при muted - снимаем mute
-        if (isMuted.value && newVolume > 0) {
-          isMuted.value = false;
-        }
-
-        // Обновляем громкость аудио
-        audio.volume = volume.value;
-      };
-
-      const stopDraggingVolume = () => {
-        isDraggingVolume.value = false;
-
-        // Удаляем обработчики
-        document.removeEventListener("mousemove", handleVolumeDrag);
-        document.removeEventListener("mouseup", stopDraggingVolume);
-        document.removeEventListener("touchmove", handleVolumeDrag);
-        document.removeEventListener("touchend", stopDraggingVolume);
-      };
-
       // Инициализация аудиоплеера
       onMounted(() => {
         audio.src = tracks.value[0].src;
@@ -413,11 +373,6 @@
         if (progressBar.value) {
           progressBar.value.addEventListener("click", updateProgress);
         }
-
-        // Обновляем громкость при клике на слайдер громкости
-        if (volumeSlider.value) {
-          volumeSlider.value.addEventListener("click", updateVolume);
-        }
       });
 
       // Очистка при размонтировании
@@ -426,11 +381,6 @@
         document.removeEventListener("mouseup", stopDraggingProgress);
         document.removeEventListener("touchmove", handleProgressDrag);
         document.removeEventListener("touchend", stopDraggingProgress);
-
-        document.removeEventListener("mousemove", handleVolumeDrag);
-        document.removeEventListener("mouseup", stopDraggingVolume);
-        document.removeEventListener("touchmove", handleVolumeDrag);
-        document.removeEventListener("touchend", stopDraggingVolume);
       });
 
       return {
@@ -450,10 +400,10 @@
         togglePlay,
         playTrack,
         nextTrack,
-        previousTrack,
-        toggleMute,
+        // previousTrack,
+        // toggleMute,
         startDraggingProgress,
-        startDraggingVolume,
+        // startDraggingVolume,
       };
     },
   }).mount("#app");
