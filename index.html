@@ -14,93 +14,97 @@
     />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
-</html>
 
-<body>
-  <div id="app">
-    <div class="wrapper">
-      <header>
-        <div class="logo">
-          <img src="./assets/logo/logo-white.png" alt="whisky-vrn" />
-        </div>
-        <div class="description">
-          <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
-        </div>
-      </header>
-
-      <main>
-        <div class="player">
-          <div class="player-header">
-            <img :src="currentTrack.img" :alt="currentTrack.title" />
+  <body>
+    <div id="app">
+      <div class="wrapper">
+        <header>
+          <div class="logo">
+            <img src="./assets/logo/logo-white.png" alt="whisky-vrn" loading="lazy"/>
           </div>
-          <div class="player-controls">
-            <div class="control-btn">
-              <button class="control-icon" @click="togglePlay">
-                <span class="playing-icon">
-                  <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
-                  <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
-                </span>
-              </button>
+          <div class="description">
+            <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
+          </div>
+        </header>
+
+        <main>
+          <div class="player">
+            <div class="player-header">
+              <img :src="currentTrack.img" :alt="currentTrack.title" loading="lazy" />
+              <div v-if="isLoading" class="loading-overlay">
+                <span>Загрузка...</span>
+              </div>
+              <div class="buffer-bar" :style="{ width: bufferedProgress + '%' }"></div>
             </div>
-            <div class="control-progress">
-              <div class="progress-title">{{ currentTrack.title }}</div>
-              <div class="progress-block">
-                <span class="current-time">{{ formatTime(currentTime) }}</span>
-                <div
-                  class="progress-bar"
-                  @mousedown="startDraggingProgress"
-                  @touchstart="startDraggingProgress"
-                  ref="progressBar"
-                >
-                  <div class="progress" :style="{ width: progress + '%' }"></div>
-                </div>
-                <span class="total-time">{{ formatTime(duration) }}</span>
-                <button @click.prevent="previousTrack">
-                  <span class="control-icon">
-                    <img src="./assets/icon/skip-previous-svgrepo-com.svg" alt="previous" />
+            <div class="player-controls">
+              <div class="control-btn">
+                <button class="control-icon" @click="togglePlay">
+                  <span class="playing-icon">
+                    <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
+                    <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
                   </span>
                 </button>
-                <button @click.prevent="nextTrack">
-                  <span class="control-icon">
-                    <img src="./assets/icon/skip-next-svgrepo-com.svg" alt="next" />
-                  </span>
-              </button>
+              </div>
+              <div class="control-progress">
+                <div class="progress-title">{{ currentTrack.title }}</div>
+                <div class="progress-block">
+                  <span class="current-time">{{ formatTime(currentTime) }}</span>
+                  <div
+                    class="progress-bar"
+                    @mousedown="startDraggingProgress"
+                    @touchstart="startDraggingProgress"
+                    ref="progressBar"
+                  >
+                    <div class="progress" :style="{ width: progress + '%' }"></div>
+                  </div>
+                  <span class="total-time">{{ formatTime(duration) }}</span>
+                  <button @click.prevent="previousTrack">
+                    <span class="control-icon">
+                      <img src="./assets/icon/skip-previous-svgrepo-com.svg" alt="previous" />
+                    </span>
+                  </button>
+                  <button @click.prevent="nextTrack">
+                    <span class="control-icon">
+                      <img src="./assets/icon/skip-next-svgrepo-com.svg" alt="next" />
+                    </span>
+                </button>
+                </div>
+              </div>
+            </div>
+            <div class="player-filter">
+              <button class="filter-active">Лучшее</button>
+              <button class="filter-btn">Все песни</button>
+            </div>
+
+            <!-- Список треков -->
+            <div class="track-list">
+              <div
+                v-for="(track, index) in tracks"
+                :key="track.id"
+                class="track-item"
+                :class="{ active: currentTrack.id === track.id }"
+                @click="playTrack(index)"
+              >
+                <div class="track-list-image">
+                  <img :src="track.img" alt="track.name" />
+                </div>
+                <div class="track-list-heading">
+                  <div class="track-list-title">{{ track.title }}</div>
+                  <div class="track-list-record">{{ track.year }}</div>
+                </div>
+                <span class="track-duration">{{ formatTime(track.duration) }}</span>
               </div>
             </div>
           </div>
-          <div class="player-filter">
-            <button class="filter-active">Лучшее</button>
-            <button class="filter-btn">Все песни</button>
-          </div>
+        </main>
 
-          <!-- Список треков -->
-          <div class="track-list">
-            <div
-              v-for="(track, index) in tracks"
-              :key="track.id"
-              class="track-item"
-              :class="{ active: currentTrack.id === track.id }"
-              @click="playTrack(index)"
-            >
-              <div class="track-list-image">
-                <img :src="track.img" alt="track.name" />
-              </div>
-              <div class="track-list-heading">
-                <div class="track-list-title">{{ track.title }}</div>
-                <div class="track-list-record">{{ track.year }}</div>
-              </div>
-              <span class="track-duration">{{ formatTime(track.duration) }}</span>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <footer>
-        <p class="copyright">© {{ new Date().getFullYear() }} the whisky vrn</p>
-      </footer>
+        <footer>
+          <p class="copyright">© {{ new Date().getFullYear() }} the whisky vrn</p>
+        </footer>
+      </div>
     </div>
-  </div>
-</body>
+  </body>
+</html>
 
 <script>
   const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
@@ -255,9 +259,12 @@
       const isDraggingVolume = ref(false);
       const progressBar = ref(null);
       const volumeSlider = ref(null);
+      const isLoading = ref(false);
+      const bufferedProgress = ref(0);
 
       // Инициализируем HTMLAudioElement: Audio() constructor
-      const audio = new Audio();
+      // const audio = new Audio();
+      const audio = ref(new Audio())
 
       const currentTrack = computed(() => tracks.value[currentTrackIndex.value]);
 
@@ -271,49 +278,43 @@
       // Управление воспроизведением
       const togglePlay = () => {
         if (isPlaying.value) {
-          audio.pause();
+          audio.value.pause();
         } else {
-          audio.play();
+          audio.value.play();
         }
         isPlaying.value = !isPlaying.value;
       };
 
       const playTrack = (index) => {
+        
+        isLoading.value = true; 
+        bufferedProgress.value = 0;
+
         currentTrackIndex.value = index;
-        audio.src = tracks.value[index].src;
-        audio.play();
+        audio.value.src = tracks.value[index].src;
+        audio.value.play();
         isPlaying.value = true;
       };
 
       const nextTrack = () => {
+        isLoading.value = true; 
+        bufferedProgress.value = 0;
+
         currentTrackIndex.value = (currentTrackIndex.value + 1) % tracks.value.length;
-        audio.src = tracks.value[currentTrackIndex.value].src;
-        audio.play();
+        audio.value.src = tracks.value[currentTrackIndex.value].src;
+        audio.value.play();
         isPlaying.value = true;
       };
 
       const previousTrack = () => {
+        isLoading.value = true; 
+        bufferedProgress.value = 0;
+
         currentTrackIndex.value =
           currentTrackIndex.value === 0 ? tracks.value.length - 1 : currentTrackIndex.value - 1;
-        audio.src = tracks.value[currentTrackIndex.value].src;
-        audio.play();
+        audio.value.src = tracks.value[currentTrackIndex.value].src;
+        audio.value.play();
         isPlaying.value = true;
-      };
-
-      // Функция mute
-      const toggleMute = () => {
-        if (isMuted.value) {
-          // Включаем звук, восстанавливаем предыдущую громкость
-          isMuted.value = false;
-          audio.volume = previousVolume.value;
-          volume.value = previousVolume.value;
-        } else {
-          // Выключаем звук, сохраняем текущую громкость
-          isMuted.value = true;
-          previousVolume.value = volume.value;
-          audio.volume = 0;
-          volume.value = 0;
-        }
       };
 
       // Перетаскивание прогресса трека
@@ -352,7 +353,7 @@
 
         const newProgress = (clickPosition / rect.width) * 100;
         progress.value = newProgress;
-        audio.currentTime = (newProgress / 100) * duration.value;
+        audio.value.currentTime = (newProgress / 100) * duration.value;
       };
 
       const stopDraggingProgress = () => {
@@ -367,28 +368,47 @@
 
       // Инициализация аудиоплеера
       onMounted(() => {
-        audio.src = tracks.value[0].src;
-        audio.volume = volume.value;
+        isLoading.value = true; 
+        bufferedProgress.value = 0;
 
-        audio.addEventListener("loadedmetadata", () => {
-          duration.value = audio.duration;
-        });
+        audio.value.src = tracks.value[0].src;
+        audio.value.volume = volume.value;
 
-        audio.addEventListener("timeupdate", () => {
-          if (!isDraggingProgress.value) {
-            currentTime.value = audio.currentTime;
-            progress.value = (audio.currentTime / audio.duration) * 100;
+        // Готовность трека
+        audio.value.addEventListener('loadstart', () => isLoading.value = true)
+        
+        audio.value.addEventListener('progress', () => {
+          if (audio.value.buffered.length > 0) {
+            const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
+            bufferedProgress.value = Math.min(100, buffered)
           }
         });
 
-        audio.addEventListener("ended", () => {
+        audio.value.addEventListener('canplay', () => isLoading.value = false) // Готов к воспроизведению
+        
+        audio.value.addEventListener('waiting', () => isLoading.value = true) // Буферизуется во время playback
+
+        audio.value.addEventListener('playing', () => isLoading.value = false)
+
+        audio.value.addEventListener("loadedmetadata", () => {
+          duration.value = audio.value.duration;
+        });
+
+        audio.value.addEventListener("timeupdate", () => {
+          if (!isDraggingProgress.value) {
+            currentTime.value = audio.value.currentTime;
+            progress.value = (audio.value.currentTime / audio.value.duration) * 100;
+          }
+        });
+
+        audio.value.addEventListener("ended", () => {
           nextTrack();
         });
 
-        // Обновляем прогресс при клике на прогресс-бар
-        if (progressBar.value) {
-          progressBar.value.addEventListener("click", updateProgress);
-        }
+        // // Обновляем прогресс при клике на прогресс-бар
+        // if (progressBar.value) {
+        //   progressBar.value.addEventListener("click", updateProgress);
+        // }
       });
 
       // Очистка при размонтировании
@@ -417,6 +437,8 @@
         playTrack,
         nextTrack,
         previousTrack,
+        isLoading,
+        bufferedProgress,
         // toggleMute,
         startDraggingProgress,
         // startDraggingVolume,
