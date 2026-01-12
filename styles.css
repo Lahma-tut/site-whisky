@@ -74,10 +74,23 @@ img {
 	height: 100%;
 }
 
+button, input[type="submit"] {
+  display: inline-block;
+  box-shadow: none;
+  background-color: transparent;
+  background: none;
+  cursor: pointer;
+  border: 0;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+
 .wrapper {
   width: 100%;
   max-width: 768px;
-  display: gird;
   margin: 0 auto;
 }
 
@@ -197,24 +210,31 @@ header .description {
 	color: var(--p-zinc-200);
 }
 
-/* */
+/* player-filter */
+
 .player-filter {
   display: flex;
+  min-height: 30px;
   justify-content: space-around;
-  gap: 12px;
-  padding: 10px 15px;
   background: rgb(159, 187, 54);
   border-bottom: 1px solid var(--p-zinc-900);
 }
 
-.player-filter button {
-  border: none;
-  background: none;
+.filter-active {
+  width: 100%;
   font-family: "Montserrat", sans-serif;
   font-size: 0.9rem;
   color: var(--p-zinc-800);
+  background: rgb(159, 187, 54);
 }
 
+.filter-btn {
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: var(--p-zinc-100);
+  background: var(--p-zinc-900);
+}
 
 /* Секция с плейлистом */
 
