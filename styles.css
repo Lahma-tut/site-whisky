@@ -48,6 +48,7 @@
   --white-zinc:oklch(96.7% 0.001 286.375);
   --color-colorion: #101820;
 	--color-dark: #232323;
+  --color-green: #9fbb36;
   --color-linear-gradient: linear-gradient(rgb(159, 187, 54), rgb(209, 225, 152));
 }
 
@@ -133,18 +134,27 @@ header .description {
 
 .player-controls {
   display: grid;
-  grid-template-columns: 60px 1fr;
-  align-items: center;
+  grid-template-columns: 60px auto;
   gap: 15px;
-	padding: 15px 23px;
+	padding: 15px 10px;
 	background-color: var(--p-zinc-900);
   position: sticky;
   top: 0;
   left: 0;
 }
 
+.control-progress {
+  display: flex;
+  flex-direction: column;
+}
+
 .control-btn {
-  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .control-btn {
   width: 36px;
   background: rgba(0, 0, 0, 0);
   border: none;
@@ -155,14 +165,26 @@ header .description {
 
 .control-btn:hover {
   transform: scale(1.1);
+} */
+
+.control-icon {
+  display: block;
+  width: 30px;
 }
 
-.control-progress {
-  flex: 1 0 auto;
+.control-next {
+  display: flex;
+  gap: 8px;
 }
 
-.progress-title {
+/* .progress-title {
   margin-bottom: 6px;
+} */
+
+.progress-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .progress-bar {
@@ -202,13 +224,18 @@ header .description {
   transition: all 0.2s;
 }
 
-.time-area {
+.current-time, .total-time {
+  font-size: 0.8rem;
+	color: var(--p-zinc-200);
+}
+
+/* .time-area {
   display: flex;
   justify-content: space-between;
   margin-top: 6px;
   font-size: 0.8rem;
 	color: var(--p-zinc-200);
-}
+} */
 
 /* player-filter */
 
