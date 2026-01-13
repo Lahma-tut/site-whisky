@@ -140,6 +140,7 @@ header .description {
   min-height: 108px;
   display: grid;
   grid-template-columns: 72px auto;
+  align-items: center;
   gap: 15px;
   padding: 12px;
   background-color: var(--p-zinc-900);
