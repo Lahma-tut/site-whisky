@@ -148,7 +148,7 @@
           album: "Сингл",
           year: 2017,
           duration: 257,
-          src: "./audio/17/the-whisky-davaj-ostanemsya-druzyami.mp3",
+          src: "/audio/17/the-whisky-davaj-ostanemsya-druzyami.mp3",
           img: "./assets/image/16/grom-16-m.jpg",
         },
         { 
@@ -157,7 +157,7 @@
           album: "Сигл",
           year: 2017,
           duration: 261,
-          src: "./audio/17/the-whisky-mezhdu-muzhchinoj-i-zhenshhinoj.mp3",
+          src: "/audio/17/the-whisky-mezhdu-muzhchinoj-i-zhenshhinoj.mp3",
           img: "./assets/image/16/grom-16-k1.jpg",
         },
         { 
@@ -166,7 +166,7 @@
           album: "Сингл",
           year: 2016,
           duration: 214,
-          src: "./audio/16/the-whisky-princzessy.mp3",
+          src: "/audio/16/the-whisky-princzessy.mp3",
           img: "./assets/image/19/max-1.jpg",
         },
         { 
@@ -175,7 +175,7 @@
           album: "Сигл",
           year: 2016,
           duration: 381,
-          src: "./audio/16/the-whisky-tolko-sejchas.mp3",
+          src: "/audio/16/the-whisky-tolko-sejchas.mp3",
           img: "./assets/image/16/grom-16-z.jpg",
         },
         { 
@@ -184,7 +184,7 @@
           album: "Сингл",
           year: 2016,
           duration: 201,
-          src: "./audio/16/the-whisky-vernite-mne.mp3",
+          src: "/audio/16/the-whisky-vernite-mne.mp3",
           img: "./assets/image/16/grom-16.jpg",
         },
         { 
@@ -193,7 +193,7 @@
           album: "Сигл",
           year: 2016,
           duration: 261,
-          src: "./audio/16/the-whisky-po-shablonam.mp3",
+          src: "/audio/16/the-whisky-po-shablonam.mp3",
           img: "./assets/image/ruch-2.jpg",
         },
         { 
@@ -202,7 +202,7 @@
           album: "Сигл",
           year: 2016,
           duration: 213,
-          src: "./audio/16/the-whisky-kislorod.mp3",
+          src: "/audio/16/the-whisky-kislorod.mp3",
           img: "./assets/image/16/grom-16-i.jpg",
         },
         {
@@ -211,7 +211,7 @@
           album: "Ничего не надо",
           year: 2008,
           duration: 189,
-          src: "./audio/the-whisky-nichigo-ne-nado.mp3",
+          src: "/audio/the-whisky-nichigo-ne-nado.mp3",
           img: "./assets/image/ruch-2.jpg",
         },
         {
@@ -220,7 +220,7 @@
           album: "Ничего не надо",
           year: 2008,
           duration: 189,
-          src: "./audio/the-whisky-na-kriche.mp3",
+          src: "/audio/the-whisky-na-kriche.mp3",
           img: "./assets/image/gr-1.jpg",
         },
         {
@@ -229,7 +229,7 @@
           album: "Ничего не надо",
           year: 2008,
           duration: 240,
-          src: "./audio/the-whisky-zachem.mp3",
+          src: "/audio/the-whisky-zachem.mp3",
           img: "./assets/image/gr-3.jpg",
         },
         {
@@ -238,7 +238,7 @@
           album: "Ничего не надо",
           year: 2008,
           duration: 208,
-          src: "./audio/the-whisky-nikogo-ne-vini.mp3",
+          src: "/audio/the-whisky-nikogo-ne-vini.mp3",
           img: "./assets/image/gr-2.jpg",
         },
       ]);
@@ -373,15 +373,27 @@
         audio.value.src = tracks.value[0].src;
         audio.value.volume = volume.value;
 
+        audio.value.addEventListener('error', (e) => {
+          console.error('Audio ERROR:', e);
+          isLoading.value = false; // ← Выйти из loading!
+        });
+
+        const timeout = setTimeout(() => {
+          if (isLoading.value) {
+            console.warn('Load timeout');
+            isLoading.value = false;
+          }
+        }, 5000);
+
         // Готовность трека
         audio.value.addEventListener('loadstart', () => isLoading.value = true)
         
-        audio.value.addEventListener('progress', () => {
-          if (audio.value.buffered.length > 0) {
-            const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
-            bufferedProgress.value = Math.min(100, buffered)
-          }
-        });
+        // audio.value.addEventListener('progress', () => {
+        //   if (audio.value.buffered.length > 0) {
+        //     const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
+        //     bufferedProgress.value = Math.min(100, buffered)
+        //   }
+        // });
 
         audio.value.addEventListener('canplay', () => isLoading.value = false) // Готов к воспроизведению
         
@@ -402,8 +414,7 @@
 
         audio.value.addEventListener('progress', () => {
           if (audio.value.buffered.length > 0 && !isNaN(audio.value.duration) && audio.value.duration > 0) {
-            const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
-            bufferedProgress.value = Math.min(100, buffered);
+            bufferedProgress.value = Math.min(100, audio.value.buffered.end(0) / audio.value.duration * 100);
           }
         });
 
