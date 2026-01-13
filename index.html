@@ -394,9 +394,16 @@
         });
 
         audio.value.addEventListener("timeupdate", () => {
-          if (!isDraggingProgress.value) {
+          if (!isDraggingProgress.value && !isNaN(audio.value.duration)) {
             currentTime.value = audio.value.currentTime;
             progress.value = (audio.value.currentTime / audio.value.duration) * 100;
+          }
+        });
+
+        audio.value.addEventListener('progress', () => {
+          if (audio.value.buffered.length > 0 && !isNaN(audio.value.duration) && audio.value.duration > 0) {
+            const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
+            bufferedProgress.value = Math.min(100, buffered);
           }
         });
 
@@ -416,6 +423,16 @@
         document.removeEventListener("mouseup", stopDraggingProgress);
         document.removeEventListener("touchmove", handleProgressDrag);
         document.removeEventListener("touchend", stopDraggingProgress);
+
+        const audioEl = audio.value;
+        audioEl.removeEventListener('loadstart', () => {});
+        audioEl.removeEventListener('progress', () => {});
+        audioEl.removeEventListener('canplay', () => {});
+        audioEl.removeEventListener('waiting', () => {});
+        audioEl.removeEventListener('playing', () => {});
+        audioEl.removeEventListener('loadedmetadata', () => {});
+        audioEl.removeEventListener('timeupdate', () => {});
+        audioEl.removeEventListener('ended', () => {});
       });
 
       return {
