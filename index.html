@@ -31,14 +31,10 @@
           <div class="player">
             <div class="player-header">
               <img :src="currentTrack.img" :alt="currentTrack.title" loading="lazy" />
-              <div v-if="isLoading" class="loading-overlay">
-                <span>Загрузка...</span>
-              </div>
-              <div class="buffer-bar" :style="{ width: bufferedProgress + '%' }"></div>
             </div>
             <div class="player-controls">
               <div class="control-btn">
-                <button class="control-icon" @click="togglePlay">
+                <button class="control-icon" @click="togglePlay" :disabled="isLoading">
                   <span class="playing-icon">
                     <img v-if="!isPlaying" src="./assets/icon/play-9fbb36.svg" alt="play" />
                     <img v-else src="./assets/icon/pause-9fbb36.svg" alt="pause" />
@@ -46,7 +42,10 @@
                 </button>
               </div>
               <div class="control-progress">
-                <div class="progress-title">{{ currentTrack.title }}</div>
+                <div class="progress-title">
+                    <span v-if="!isLoading">{{ currentTrack.title }}</span>
+                    <span v-else class="loader"></span>
+                </div>
                 <div class="progress-block">
                   <span class="current-time">{{ formatTime(currentTime) }}</span>
                   <div
@@ -58,12 +57,12 @@
                     <div class="progress" :style="{ width: progress + '%' }"></div>
                   </div>
                   <span class="total-time">{{ formatTime(duration) }}</span>
-                  <button @click.prevent="previousTrack">
+                  <button @click.prevent="previousTrack" :disabled="isLoading">
                     <span class="control-icon">
                       <img src="./assets/icon/skip-previous-svgrepo-com.svg" alt="previous" />
                     </span>
                   </button>
-                  <button @click.prevent="nextTrack">
+                  <button @click.prevent="nextTrack" :disabled="isLoading">
                     <span class="control-icon">
                       <img src="./assets/icon/skip-next-svgrepo-com.svg" alt="next" />
                     </span>
@@ -82,8 +81,8 @@
                 v-for="(track, index) in tracks"
                 :key="track.id"
                 class="track-item"
-                :class="{ active: currentTrack.id === track.id }"
-                @click="playTrack(index)"
+                :class="{ active: currentTrack.id === track.id, disabled: isLoading }"
+                @click="!isLoading && playTrack(index)"
               >
                 <div class="track-list-image">
                   <img :src="track.img" alt="track.name" />
