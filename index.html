@@ -43,8 +43,8 @@
               </div>
               <div class="control-progress">
                 <div class="progress-title">
-                    <span v-if="!isLoading">{{ currentTrack.title }}</span>
-                    <span v-else class="loader"></span>
+                    <span v-if="isLoading" class="loader"></span>
+                    <span v-else >{{ currentTrack.title }}</span>
                 </div>
                 <div class="progress-block">
                   <span class="current-time">{{ formatTime(currentTime) }}</span>
@@ -81,7 +81,7 @@
                 v-for="(track, index) in tracks"
                 :key="track.id"
                 class="track-item"
-                :class="{ active: currentTrack.id === track.id, disabled: isLoading }"
+                :class="{ active: currentTrack.id === track.id }"
                 @click="!isLoading && playTrack(index)"
               >
                 <div class="track-list-image">
