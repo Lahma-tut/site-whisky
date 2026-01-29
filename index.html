@@ -3,15 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#9fbb36"></meta>
-    <title>The Whisky - Official Band Website</title>
+    <meta name="theme-color" content="#9fbb36">
+    <meta name="description" content="Рок-группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки. Состав: Алексей Закупнев - гитара, Прядкин Максим - вокал, Алексей Кузнецов - бас, Илья Журихин - барабаны.">
+    <meta name="keywords" content="рок-группа виски, the whisky, вискари, виски рок, виски воронеж, группа виски, whisky воронеж">
+    <title>the Whisky</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#9fbb36">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
 
@@ -20,7 +24,7 @@
       <div class="wrapper">
         <header>
           <div class="logo">
-            <img src="./assets/logo/logo-white.png" alt="whisky-vrn" loading="lazy"/>
+            <img src="./assets/logo/logo-white.png" alt="logo-thewhisky-vrn" loading="lazy" />
           </div>
           <div class="description">
             <p>Группа the Whisky образована в 2007 году на базе ВГАУ им К. Д. Глинки.</p>
@@ -29,9 +33,16 @@
 
         <main>
           <div class="player">
-            <div class="player-header">
-              <img :src="currentTrack.img" :alt="currentTrack.title" loading="lazy" />
+            <div class="player-header" id="playerHeader">
+              <img
+                :src="currentTrack.img"
+                :alt="currentTrack.title"
+                decoding="sync"
+                width: 800
+                height: auto
+                />
             </div>
+            <button @click="scrollHeader"></button>
             <div class="player-controls">
               <div class="control-btn">
                 <button class="control-icon" @click="togglePlay" :disabled="isLoading">
@@ -80,12 +91,12 @@
               <div
                 v-for="(track, index) in tracks"
                 :key="track.id"
-                class="track-item"
                 :class="{ active: currentTrack.id === track.id }"
+                class="track-item"
                 @click="!isLoading && playTrack(index)"
               >
                 <div class="track-list-image">
-                  <img :src="track.img" alt="track.name" />
+                  <img :src="track.img" alt="track.name"  loading="lazy"/>
                 </div>
                 <div class="track-list-heading">
                   <div class="track-list-title">{{ track.title }}</div>
@@ -144,12 +155,12 @@
       const tracks = ref([
         { 
           id: 1,
-          title: "Давай останемся друзьями",
+          title: "Принцессы",
           album: "Сингл",
-          year: 2017,
-          duration: 257,
-          src: "./assets/audio/17/the-whisky-davaj-ostanemsya-druzyami.mp3",
-          img: "./assets/image/16/grom-16-m.jpg",
+          year: 2016,
+          duration: 214,
+          src: "./assets/audio/16/the-whisky-princzessy.mp3",
+          img: "./assets/image/19/max-1.jpg",
         },
         { 
           id: 2,
@@ -162,15 +173,6 @@
         },
         { 
           id: 3,
-          title: "Принцессы",
-          album: "Сингл",
-          year: 2016,
-          duration: 214,
-          src: "./assets/audio/16/the-whisky-princzessy.mp3",
-          img: "./assets/image/19/max-1.jpg",
-        },
-        { 
-          id: 4,
           title: "Только сейчас",
           album: "Сигл",
           year: 2016,
@@ -179,7 +181,7 @@
           img: "./assets/image/16/grom-16-z.jpg",
         },
         { 
-          id: 5,
+          id: 4,
           title: "Верните мне",
           album: "Сингл",
           year: 2016,
@@ -188,16 +190,16 @@
           img: "./assets/image/16/grom-16.jpg",
         },
         { 
-          id: 6,
-          title: "По шаблонам",
-          album: "Сигл",
-          year: 2016,
-          duration: 261,
-          src: "./assets/audio/16/the-whisky-po-shablonam.mp3",
-          img: "./assets/image/ruch-2.jpg",
+          id: 5,
+          title: "Давай останемся друзьями",
+          album: "Сингл",
+          year: 2017,
+          duration: 257,
+          src: "./assets/audio/17/the-whisky-davaj-ostanemsya-druzyami.mp3",
+          img: "./assets/image/16/grom-16-m.jpg",
         },
         { 
-          id: 7,
+          id: 6,
           title: "Кислород",
           album: "Сигл",
           year: 2016,
@@ -206,7 +208,7 @@
           img: "./assets/image/16/grom-16-i.jpg",
         },
         {
-          id: 8,
+          id: 7,
           title: "Ничего не надо",
           album: "Ничего не надо",
           year: 2008,
@@ -215,16 +217,7 @@
           img: "./assets/image/ruch-2.jpg",
         },
         {
-          id: 9,
-          title: "На крыше",
-          album: "Ничего не надо",
-          year: 2008,
-          duration: 189,
-          src: "./assets/audio/the-whisky-na-kriche.mp3",
-          img: "./assets/image/gr-1.jpg",
-        },
-        {
-          id: 10,
+          id: 8,
           title: "Зачем",
           album: "Ничего не надо",
           year: 2008,
@@ -233,7 +226,7 @@
           img: "./assets/image/gr-3.jpg",
         },
         {
-          id: 11,
+          id: 9,
           title: "Никого не вини",
           album: "Ничего не надо",
           year: 2008,
@@ -284,8 +277,13 @@
         isPlaying.value = !isPlaying.value;
       };
 
+      const scrollHeader = () => {
+        document.querySelector('playerHeader').scrollIntoView({ behavior:"smooth" })
+      }
+
       const playTrack = (index) => {
-        
+        scrollHeader()
+
         isLoading.value = true; 
         bufferedProgress.value = 0;
 
@@ -293,6 +291,11 @@
         audio.value.src = tracks.value[index].src;
         audio.value.play();
         isPlaying.value = true;
+
+        audio.value.addEventListener('error', (e) => {
+          console.error('Audio error:', e);
+          isLoading.value = false;
+        });
       };
 
       const nextTrack = () => {
@@ -303,6 +306,11 @@
         audio.value.src = tracks.value[currentTrackIndex.value].src;
         audio.value.play();
         isPlaying.value = true;
+        
+        audio.value.addEventListener('error', (e) => {
+          console.error('Audio error:', e);
+          isLoading.value = false;
+        });
       };
 
       const previousTrack = () => {
@@ -373,11 +381,6 @@
         audio.value.src = tracks.value[0].src;
         audio.value.volume = volume.value;
 
-        audio.value.addEventListener('error', (e) => {
-          console.error('Audio ERROR:', e);
-          isLoading.value = false; // ← Выйти из loading!
-        });
-
         const timeout = setTimeout(() => {
           if (isLoading.value) {
             console.warn('Load timeout');
@@ -387,23 +390,10 @@
 
         // Готовность трека
         audio.value.addEventListener('loadstart', () => isLoading.value = true)
-        
-        // audio.value.addEventListener('progress', () => {
-        //   if (audio.value.buffered.length > 0) {
-        //     const buffered = audio.value.buffered.end(0) / audio.value.duration * 100;
-        //     bufferedProgress.value = Math.min(100, buffered)
-        //   }
-        // });
-
         audio.value.addEventListener('canplay', () => isLoading.value = false) // Готов к воспроизведению
-        
         audio.value.addEventListener('waiting', () => isLoading.value = true) // Буферизуется во время playback
-
         audio.value.addEventListener('playing', () => isLoading.value = false)
-
-        audio.value.addEventListener("loadedmetadata", () => {
-          duration.value = audio.value.duration;
-        });
+        audio.value.addEventListener("metadata", () => { duration.value = audio.value.duration; });
 
         audio.value.addEventListener("timeupdate", () => {
           if (!isDraggingProgress.value && !isNaN(audio.value.duration)) {
@@ -422,10 +412,18 @@
           nextTrack();
         });
 
-        // // Обновляем прогресс при клике на прогресс-бар
-        // if (progressBar.value) {
-        //   progressBar.value.addEventListener("click", updateProgress);
-        // }
+        audio.value.addEventListener('error', (e) => {
+          console.error('Audio ERROR:', e);
+          isLoading.value = false;
+        });
+
+        // Media Session controls для iOS
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.setActionHandler('play', togglePlay);
+          navigator.mediaSession.setActionHandler('pause', togglePlay);
+          navigator.mediaSession.setActionHandler('previoustrack', previousTrack);
+          navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
+        }
       });
 
       // Очистка при размонтировании
@@ -441,7 +439,7 @@
         audioEl.removeEventListener('canplay', () => {});
         audioEl.removeEventListener('waiting', () => {});
         audioEl.removeEventListener('playing', () => {});
-        audioEl.removeEventListener('loadedmetadata', () => {});
+        audioEl.removeEventListener('metadata', () => {});
         audioEl.removeEventListener('timeupdate', () => {});
         audioEl.removeEventListener('ended', () => {});
       });
@@ -466,9 +464,7 @@
         previousTrack,
         isLoading,
         bufferedProgress,
-        // toggleMute,
         startDraggingProgress,
-        // startDraggingVolume,
       };
     },
   }).mount("#app");
